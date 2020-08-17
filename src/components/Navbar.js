@@ -1,10 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from '../actions/authActions';
 
 const Navbar = (props) => {
 
     const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch();
+
+    /*
+    const logout = () => {
+        dispatch(logoutUser);
+    };
+    */
 
     return (
         <nav>
@@ -21,7 +29,9 @@ const Navbar = (props) => {
                     <ul id="nav-mobile" className="right hide-on-med-and-down">
                         {
                             auth.authenticated ?
-                                <li><Link to={"#"} onClick={props.logout}>Log Out</Link></li> : null
+                                <li><Link to={"/"} onClick={() => {
+                                    dispatch(logoutUser())
+                                }}>Log Out</Link></li> : null
                         }
                     </ul>
                 </div>

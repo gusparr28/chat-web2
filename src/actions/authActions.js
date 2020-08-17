@@ -54,7 +54,6 @@ export const signin = (user) => {
         dispatch({ type: `${authConstant.USER_SIGNIN}_REQUEST` });
         auth().signInWithEmailAndPassword(user.email, user.password)
             .then((data) => {
-                console.log(data);
                 const name = data.user.displayName.split(" ");
                 const firstName = name[0];
                 const lastName = name[1];
@@ -91,7 +90,22 @@ export const isSignedInUser = () => {
             dispatch({
                 type: `${authConstant.USER_SIGNIN}_FAILURE`,
                 payload: { error: 'Sign In again please' }
+            });
+        };
+    };
+};
+
+export const logoutUser = () => {
+    return async dispatch => {
+        dispatch({ type: `${authConstant.USER_LOGOUT}_REQUEST` });
+        auth().signOut()
+            .then(() => {
+                localStorage.clear();
+                dispatch({ type: `${authConstant.USER_LOGOUT}_SUCCESS` });
             })
-        }
-    }
-}
+            .catch(error => {
+                console.error(error);
+                dispatch({ type: `${authConstant.USER_LOGOUT}_FAILURE`, payload: { error } });
+            });
+    };
+};
