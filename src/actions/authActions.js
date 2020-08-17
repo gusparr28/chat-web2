@@ -21,17 +21,17 @@ export const signup = (user) => {
                             createdAt: new Date()
                         })
                             .then(() => {
-                                const signedInUser = {
+                                const signedUpUser = {
                                     firstName: user.firstName,
                                     lastName: user.lastName,
                                     uid: data.user.uid,
                                     email: user.email
                                 }
-                                localStorage.setItem('user', JSON.stringify(signedInUser));
+                                localStorage.setItem('user', JSON.stringify(signedUpUser));
                                 console.log("User signed in successfully")
                                 dispatch({
                                     type: `${authConstant.USER_SIGNIN}_SUCCESS`,
-                                    payload: { user: signedInUser }
+                                    payload: { user: signedUpUser }
                                 })
                             })
                             .catch(error => {
@@ -48,3 +48,50 @@ export const signup = (user) => {
             });
     };
 };
+
+export const signin = (user) => {
+    return async dispatch => {
+        dispatch({ type: `${authConstant.USER_SIGNIN}_REQUEST` });
+        auth().signInWithEmailAndPassword(user.email, user.password)
+            .then((data) => {
+                console.log(data);
+                const name = data.user.displayName.split(" ");
+                const firstName = name[0];
+                const lastName = name[1];
+                const signedInUser = {
+                    firstName,
+                    lastName,
+                    uid: data.user.uid,
+                    email: data.user.email
+                }
+                localStorage.setItem('user', JSON.stringify(signedInUser));
+                dispatch({
+                    type: `${authConstant.USER_SIGNIN}_SUCCESS`,
+                    payload: { user: signedInUser }
+                });
+            })
+            .catch(error => {
+                console.error(error);
+                dispatch({
+                    type: `${authConstant.USER_SIGNIN}_FAILURE`,
+                    payload: { error }
+                });
+            });
+    };
+};
+export const isSignedInUser = () => {
+    return async dispatch => {
+        const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
+        if (user) {
+            dispatch({
+                type: `${authConstant.USER_SIGNIN}_SUCCESS`,
+                payload: { user }
+            })
+        } else {
+            dispatch({
+                type: `${authConstant.USER_SIGNIN}_FAILURE`,
+                payload: { error: 'Sign In again please' }
+            })
+        }
+    }
+}
