@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 import { signup } from '../actions/authActions';
 
@@ -13,6 +14,7 @@ const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
+    const auth = useSelector(state => state.auth);
 
     const signUpUser = (e) => {
         e.preventDefault()
@@ -21,6 +23,10 @@ const SignUp = () => {
         };
         dispatch(signup(user));
     };
+
+    if (auth.authenticated) {
+        return <Redirect to={'/signin'} />
+    }
 
     return (
         <Layout>

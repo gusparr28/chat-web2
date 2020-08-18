@@ -30,7 +30,7 @@ const Navbar = (props) => {
                         {
                             auth.authenticated ?
                                 <li><Link to={"/"} onClick={() => {
-                                    dispatch(logoutUser())
+                                    dispatch(logoutUser(auth.uid))
                                 }}>Log Out</Link></li> : null
                         }
                     </ul>
