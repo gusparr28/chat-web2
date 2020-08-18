@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Layout from './Layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRealtimeUsers } from '../actions/userActions';
+import { getRealtimeUsers, updateMessage, getRealtimeChats } from '../actions/userActions';
 
 const User = (props) => {
 
@@ -15,7 +15,7 @@ const User = (props) => {
             </div>
             <div className="container-user-name">
                 <span className="user-name">{user.firstName} {user.lastName}</span>
-                <span>{user.isOnline ? 'online' : 'offline'}</span>
+                <span className={user.isOnline ? `online-status` : `offline-status`}></span>
             </div>
         </div>
     );
@@ -28,6 +28,8 @@ const Home = (props) => {
     const user = useSelector(state => state.user);
     const [startedChat, setStartedChat] = useState(false);
     const [userChat, setUserChat] = useState("");
+    const [message, setMessage] = useState("");
+    const [userUid, setUserUid] = useState(null);
     let unsubscribe;
 
     useEffect(() => {
@@ -40,8 +42,6 @@ const Home = (props) => {
             });
     }, []);
 
-    console.log(user);
-
     useEffect(() => {
         return () => {
             unsubscribe.then(f => f()).catch(error => console.log(error));
@@ -51,7 +51,24 @@ const Home = (props) => {
     const initChat = (user) => {
         setStartedChat(true);
         setUserChat(`${user.firstName} ${user.lastName}`)
+        setUserUid(user.uid);
         console.log(user);
+        dispatch(getRealtimeChats({ uid_1: auth.uid, uid_2: user.uid }))
+    };
+
+    const sendMessage = (e) => {
+        const msg = {
+            user_uid_1: auth.uid,
+            user_uid_2: userUid,
+            message
+        }
+        if (message !== "") {
+            dispatch(updateMessage(msg))
+            .then(() => {
+                setMessage("");
+            });
+        }
+        console.log(msg);
     };
 
     return (
@@ -76,16 +93,24 @@ const Home = (props) => {
                     <div className="messageSections">
                         {
                             startedChat ?
-                                <div className="messages">
-                                    <p className="messageStyle" >Hello User</p>
-                                </div> : null
+                                user.chats.map(chat => {
+                                    return (
+                                        <div className={chat.user_uid_1 == auth.uid ? `sent` : `received`}>
+                                            <p className="messageStyle" >{chat.message}</p>
+                                        </div>
+                                    );
+                                }) : null
                         }
                     </div>
                     {
                         startedChat ?
                             <div className="chatControls">
-                                <textarea />
-                                <button>Send</button>
+                                <textarea
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                    placeholder="Start messaging"
+                                />
+                                <button onClick={sendMessage}>Send</button>
                             </div> : null
                     }
                 </div>

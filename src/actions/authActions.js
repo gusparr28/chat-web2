@@ -92,6 +92,7 @@ export const signin = (user) => {
             });
     };
 };
+
 export const isSignedInUser = () => {
     return async dispatch => {
         const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;

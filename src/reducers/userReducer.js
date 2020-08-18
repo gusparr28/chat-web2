@@ -1,8 +1,9 @@
 import { userConstants } from "../actions/constants"
 
 const initState = {
-    users: []
-}
+    users: [],
+    chats: []
+};
 
 export default (state = initState, action) => {
     switch (action.type) {
@@ -12,6 +13,12 @@ export default (state = initState, action) => {
             state = {
                 ...state,
                 users: action.payload.users
+            }
+            break;
+        case userConstants.GET_REALTIME_MESSAGES:
+            state = {
+                ...state, 
+                chats: action.payload.chats
             }
             break;
     }

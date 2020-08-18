@@ -23,3 +23,59 @@ export const getRealtimeUsers = (uid) => {
     };
 };
 
+export const updateMessage = (msg) => {
+    return async dispatch => {
+        const db = firestore();
+        db.collection("chats")
+            .add({
+                ...msg,
+                viewed: false,
+                createdAt: new Date()
+            })
+            .then((data) => {
+                console.log(data);
+                /*
+                dispatch({
+                    type: userConstants.GET_REALTIME_MESSAGES
+                });
+                */
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+};
+
+export const getRealtimeChats = (user) => {
+    return async dispatch => {
+        const db = firestore();
+        db.collection("chats")
+            .where("user_uid_1", "in", [user.uid_1, user.uid_2])
+            .orderBy("createdAt", "asc")
+            .onSnapshot((querySnapshot) => {
+                const chats = [];
+                querySnapshot.forEach(doc => {
+                    if (
+                        (doc.data().user_uid_1 == user.uid_1 && doc.data().user_uid_2 == user.uid_2)
+                        ||
+                        (doc.data().user_uid_1 == user.uid_2 && doc.data().user_uid_2 == user.uid_1)
+                    ) {
+                        chats.push(doc.data());
+                    }
+                });
+                if (chats.length > 0) {
+                    dispatch({
+                        type: userConstants.GET_REALTIME_MESSAGES,
+                        payload: { chats }
+                    });
+                } else {
+                    dispatch({
+                        type: `${userConstants.GET_REALTIME_MESSAGES}_FAILURE`,
+                        payload: { chats }
+                    });
+                };
+                console.log(chats);
+            });
+    };
+};
+

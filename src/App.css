@@ -131,8 +131,12 @@ a {
   top: 40px;
 }
 
-.messages {
+.received {
   text-align: left;
+}
+
+.sent {
+  text-align: right;
 }
 
 .user-name {
@@ -144,4 +148,22 @@ a {
   justify-content: space-between;
   margin: 0 10px;
   flex: 1;
+}
+
+.online-status {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: green;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 green;
+}
+
+.offline-status {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 0 red;
 }
