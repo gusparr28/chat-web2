@@ -5,7 +5,7 @@ export const getRealtimeUsers = (uid) => {
     return async (dispatch) => {
         dispatch({ type: `${userConstants.GET_REALTIME_USERS}_REQUEST` });
         const db = firestore();
-        db.collection("users")
+        const unsubscribe = db.collection("users")
             //.where("uid", "!=", uid)
             .onSnapshot((querySnapshot) => {
                 const users = [];
@@ -14,12 +14,12 @@ export const getRealtimeUsers = (uid) => {
                         users.push(doc.data());
                     }
                 });
-                //console.log(users);
                 dispatch({
                     type: `${userConstants.GET_REALTIME_USERS}_SUCCESS`,
                     payload: { users }
                 });
             });
+        return unsubscribe;
     };
 };
 

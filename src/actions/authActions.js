@@ -57,20 +57,31 @@ export const signin = (user) => {
         dispatch({ type: `${authConstant.USER_SIGNIN}_REQUEST` });
         auth().signInWithEmailAndPassword(user.email, user.password)
             .then((data) => {
+                const db = firestore();
+                db.collection("users")
+                    .doc(data.user.uid)
+                    .update({
+                        isOnline: true
+                    })
+                    .then(() => {
+                        const signedInUser = {
+                            firstName,
+                            lastName,
+                            uid: data.user.uid,
+                            email: data.user.email
+                        }
+                        localStorage.setItem('user', JSON.stringify(signedInUser));
+                        dispatch({
+                            type: `${authConstant.USER_SIGNIN}_SUCCESS`,
+                            payload: { user: signedInUser }
+                        });
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
                 const name = data.user.displayName.split(" ");
                 const firstName = name[0];
                 const lastName = name[1];
-                const signedInUser = {
-                    firstName,
-                    lastName,
-                    uid: data.user.uid,
-                    email: data.user.email
-                }
-                localStorage.setItem('user', JSON.stringify(signedInUser));
-                dispatch({
-                    type: `${authConstant.USER_SIGNIN}_SUCCESS`,
-                    payload: { user: signedInUser }
-                });
             })
             .catch(error => {
                 console.error(error);
