@@ -31,6 +31,7 @@ a {
   border: 1px solid #eee;
   background: #fff;
   box-shadow: 0 0 5px 1px #ccc;
+  border-radius: 10px;
 }
 
 .signin-container, .signup-container {
@@ -171,4 +172,13 @@ a {
 .sent-image {
   height: 250px;
   width: 500px;
+}
+
+#btn-signin, #btn-signup{
+  margin-left: 160px;
+  border-radius: 10px;
+}
+
+.title-signin, .title-signup {
+  text-align: center;
 }

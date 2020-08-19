@@ -13,13 +13,13 @@ const SignIn = () => {
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
     const auth = useSelector(state => state.auth);
-/*
-    useEffect(() => {
-        if (!auth.authenticated) {
-            dispatch(isSignedInUser());
-        }
-    }, []);
-*/
+    /*
+        useEffect(() => {
+            if (!auth.authenticated) {
+                dispatch(isSignedInUser());
+            }
+        }, []);
+    */
     const signInUser = (e) => {
         e.preventDefault();
         if (email == "") {
@@ -42,22 +42,35 @@ const SignIn = () => {
             <div className="signin-container">
                 <Card>
                     <form onSubmit={signInUser}>
-                        <h3>Sign In</h3>
-                        <input
-                            type="text"
-                            placeholder="Email"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                        />
-                        <div>
-                            <button>Sign In</button>
+                        <h3 className="title-signin">Sign In</h3>
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <i class="material-icons prefix">mail</i>
+                                <input
+                                    type="text"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
+                                />
+                            </div>
                         </div>
+                        <div className="row">
+                            <div className="input-field col s12">
+                                <i class="material-icons prefix">lock</i>
+                                <input
+                                    type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <br />
+                        <center>
+                            <div className="row">
+                                <button id="btn-signin" className="col s16 btn btn-small green black-text waves-effect z-depth-1 y-depth-1">Sign In</button>
+                            </div>
+                        </center>
                     </form>
                 </Card>
             </div>

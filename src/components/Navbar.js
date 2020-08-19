@@ -15,8 +15,8 @@ const Navbar = (props) => {
     */
 
     return (
-        <nav>
-            <div className="container">
+        <nav className="#1976d2 blue darken-2">
+            <div className="container #1976d2">
                 <div className="nav-wrapper">
                     <Link to={"/"} className="brand-logo">Web Chat App</Link>
                     {
