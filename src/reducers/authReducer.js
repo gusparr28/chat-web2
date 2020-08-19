@@ -11,8 +11,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
 
-    console.log(action);
-
     switch (action.type) {
         case `${authConstant.USER_SIGNIN}_REQUEST`:
             state = {

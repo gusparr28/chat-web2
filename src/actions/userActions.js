@@ -33,7 +33,6 @@ export const updateMessage = (msg) => {
                 createdAt: new Date()
             })
             .then((data) => {
-                console.log(data);
                 /*
                 dispatch({
                     type: userConstants.GET_REALTIME_MESSAGES
@@ -74,8 +73,6 @@ export const getRealtimeChats = (user) => {
                         payload: { chats }
                     });
                 };
-                console.log(chats);
             });
     };
 };
-

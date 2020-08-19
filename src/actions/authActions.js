@@ -7,7 +7,6 @@ export const signup = (user) => {
         dispatch({ type: `${authConstant.USER_SIGNIN}_REQUEST` })
         auth().createUserWithEmailAndPassword(user.email, user.password)
             .then(data => {
-                console.log(data);
                 const currentUser = auth().currentUser;
                 const name = `${user.firstName} ${user.lastName}`;
                 currentUser.updateProfile({
