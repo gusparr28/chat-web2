@@ -36,7 +36,7 @@ const Navbar = (props) => {
                     </ul>
                 </div>
             </div>
-            <div>
+            <div className="username-signedin">
                 {
                     auth.authenticated ? `User signed in: ${auth.firstName} ${auth.lastName}` : ''
                 }
