@@ -76,3 +76,11 @@ export const getRealtimeChats = (user) => {
             });
     };
 };
+
+export const searchUsersFeature = (firstName) => {
+    return {
+        type: "SEARCH_USER",
+        payload: firstName
+    }
+};
+

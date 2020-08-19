@@ -3,7 +3,7 @@ import { storage } from '../index';
 
 import Layout from './Layout';
 import { useDispatch, useSelector } from 'react-redux';
-import { getRealtimeUsers, updateMessage, getRealtimeChats } from '../actions/userActions';
+import { getRealtimeUsers, updateMessage, getRealtimeChats, searchUsersFeature } from '../actions/userActions';
 
 const User = (props) => {
 
@@ -32,6 +32,7 @@ const Home = (props) => {
     const [message, setMessage] = useState("");
     const [userUid, setUserUid] = useState(null);
     const [image, setImage] = useState(null);
+    const [searchUsers, setSearchUsers] = useState("");
     let unsubscribe;
 
     useEffect(() => {
@@ -110,10 +111,20 @@ const Home = (props) => {
         }
     };
 
+    const onClickButton = () => {
+        dispatch(searchUsersFeature(searchUsers));
+    };
+
+    //const user = user.users.filter(b => b.firstName == e.target.value);
+
     return (
         <Layout>
             <section className="container-home">
                 <div className="listOfUsers">
+                    <div className="search-container">
+                        <input onChange={e => setSearchUsers(e.target.value)} type="text" placeholder="Search users" />
+                        <button onClick={onClickButton}>Search</button>
+                    </div>
                     {
                         user.users.length > 0 ?
                             user.users.map(user => {

@@ -36,6 +36,11 @@ const Navbar = (props) => {
                     </ul>
                 </div>
             </div>
+            <div>
+                {
+                    auth.authenticated ? `User signed in: ${auth.firstName} ${auth.lastName}` : ''
+                }
+            </div>
         </nav>
     )
 };

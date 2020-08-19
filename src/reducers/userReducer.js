@@ -21,7 +21,11 @@ export default (state = initState, action) => {
                 chats: action.payload.chats
             }
             break;
+        case "SEARCH_USER":
+            state = {
+                users: state.users.filter(v => v.firstName == action.payload)
+            }
+            break;
     }
     return state;
-
 }
